@@ -1,0 +1,169 @@
+razkarl
+311143127
+Raz Karl
+
+I discussed the exercise with:
+
+=================================
+=  README for ex10: WikiNetwork =
+=================================
+An exercise of implementing classes and network algorithms.
+
+
+================
+=  Description =
+================
+This project creates a network of articles from an input text file (see 'Links
+File' below) and implements some network algorithms (see 'Network Algorithms'
+below) for analyzing the relationships between the articles.
+
+------------------
+- Included Files -
+------------------
+article.py      Defines the Article class - an article with a title and a
+                set of neighbors.
+                Please see 'Security Notes' below.
+
+wikinetwork.py  Defines the WikiNetwork class - a network of articles with
+                network algorithms (see 'Network Algorithms' below).
+                Defines read_article_links(FILE_NAME) - a method for parsing
+                the links file (see 'Links File' below).
+
+----------------------
+- Network Algorithms -
+----------------------
+- Page Rank             Sort the articles in the network from most to least
+                        linked article using Google's Page Ranking algorithm.
+- Jaccard Index         Sort the articles in the network by their similarity to
+                        a given article using Jaccard Index algorithm.
+- Travel Path Iterator  An iterator that travels the network by following the
+                        most popular neighbor of an article.
+- Friends By Depth      List all the articles in the network that can be
+                        reached from an article by a limited number of links.
+
+--------------
+- Links File -
+--------------
+The links between all articles in the network are represented in a text file:
+
+Links.txt
+    ArticleA    ArticleB
+    ArticleA    ArticleC
+    ArticleB    ArticleA
+    ...
+
+Each line in the file describes a single link, with the following format:
+    [article_title]\t[neighbor_title]\n
+
+The file is parsed with:
+    read_article_links(FILE_NAME)
+
+
+==============
+=  Questions =
+==============
+Answers to questions in Ex10.pdf:
+
+---------------------------
+- Question #1 (Page Rank) -
+---------------------------
+United_States, France, Europe
+
+-------------------------------
+- Question #2 (Jaccard Index) -
+-------------------------------
+Louis_XIV_of_France    William_III_of_England
+The_Godfather          Citizen_Kane
+The_Lord_of_the_Rings  J._R._R._Tolkien
+The_Simpsons           Tuvalu
+
+----------------------------------
+- Question #3 (Friends by Depth) -
+----------------------------------
+1 from United_States        =  6.44 % of all articles
+2 from United_States_dollar = 20.04 % of all articles
+3 from Microsoft            = 55.27 % of all articles
+
+==================
+= Security Notes =
+==================
+As a security oriented programmer (And an obidient student who follows your
+guidelines), I could not ignore the fact that the getter method
+'get_neighbors()' in the Article class returns a data structure that can be
+modified by the user (for example - by adding new neighbors).
+Since returning a private, modifiable data structure of the class is a serious
+vulnerability, I implemented a getter that clones the article (with a
+recursive deepcopy class method, pasted below) and returns the neighbors of
+the clone, which can be modified but will not alter the original Article
+object.
+Since returning a deep copy of an article actually requires copying it's entire
+connected component in the network (could possibly be the entire network),
+and since many articles have bidirectional connections - I had to implement
+my own deepcopy() version to avoid copying the same neighbor twice while
+preserving all the connections between the articles in the network.
+After implementing and testing the function on small networks (It works!) I
+tested it on the given WikiNetwork - and because the network had so many
+connections - my recursive algorithm reached python's maximal recursion
+depth...
+I decided not to include the secure method in the handout code but only here
+in the README since I wasn't sure the testing environment will enable
+me to expand it's recursion limit, but I still wanted to demonstrate that I
+understand the concept of secure getters.
+
+-------------------------------------------------------------
+- Implementation of secure get_neighbors() in Article class -
+-------------------------------------------------------------
+
+    def get_neighbors(self):
+        """
+        Return a list of deep copies of articles linked from this article.
+        This article is cloned, and the returned list contains the clone's
+        neighbors - so the real article and his neighbors are protected.
+        :return: list of Article objects - deep copies of article neighbors
+        """
+        return self.__get_neighbors_deepcopy(memo=None)
+
+    def __get_neighbors_deepcopy(self, memo):
+        """
+        Return a list of deep copies of all neighbors.
+        :param memo:    dict - already copied articles
+        :return:        list - deep copies of Article objects
+        """
+        # Clone my self
+        clone = self.__deepcopy__()
+
+        # Return the neighbors of my clone to protect my real neighbors
+        return [nbr for nbr in clone.__neighbors]
+
+
+    def __deepcopy__(self, memo=None):
+        """
+        Override copy.deepcopy with a custom Article deepcopy that clones
+        the article and all of it's neighbors while preserving connections,
+        while avoiding infinite recursion.
+        """
+
+        # Initialize a dict of already cloned articles
+        if not memo:
+            memo = dict()
+
+        # Initialize clone of self
+        if self.get_title() not in memo:
+            clone = Article(self.__title)
+            memo[clone.get_title()] = clone
+        else:
+            clone = memo[clone.get_title()]
+
+        # Clone my neighbors, add the cloned neighbors as my clone's neighbors
+        for neighbor in self.__neighbors:
+            # If neighbor has no clone yet - make one
+            if neighbor.get_title() not in memo:
+                cloned_neighbor = neighbor.__deepcopy__(memo)
+            # Otherwise get pointer to the cloned neighbor
+            else:
+                cloned_neighbor = memo[neighbor.get_title()]
+            # Add cloned neighbor to my my clone
+            clone.add_neighbor(cloned_neighbor)
+
+        # Return a deep copy of my self
+        return clone

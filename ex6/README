@@ -1,0 +1,33 @@
+razkarl
+311143127
+Raz Karl
+
+I discussed the exercise with: 
+
+============================
+=  README for ex6: Mosaic  =
+============================
+A program that generates a mosaic of a picture from a set of images.
+
+==================
+=  Description:  =
+==================
+Requires PIL
+
+usage: ex6.py [-h]
+              image_source images_dir output_name tile_height num_candidates
+
+Create a mosaic of a picture from a set of of images.
+
+positional arguments:
+  image_source    path to a .jpg picture - the mosaic objective.
+  images_dir      path to directory containing only .jpg images - the mosaic
+                  tiles.
+  output_name     path of output file.
+  tile_height     size in pixels of the mosaic tiles.
+  num_candidates  adjusts accuracy - larger numbers lead to slower runs but
+                  possibly more accurate results.
+
+optional arguments:
+  -h, --help      show this help message and exit
+

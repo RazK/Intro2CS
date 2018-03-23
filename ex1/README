@@ -1,0 +1,22 @@
+razkarl
+311143127
+Raz Karl
+
+I discussed the exercise with: Shimon Heimowitz
+
+=====================================
+=  README for ex1: Turtle and Math  =
+=====================================
+https://docs.python.org/3/library/turtle.html
+https://docs.python.org/3/library/math.html
+
+==================
+=  Description:  =
+==================
+Exercises of the turtle and math modules.
+
+======================
+=  Special Comments  =
+======================
+I created a more advanced and parameterized version of hello_turtle.py
+Would love to hand it out as well!

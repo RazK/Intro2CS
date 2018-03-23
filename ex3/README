@@ -1,0 +1,28 @@
+razkarl
+311143127
+Raz Karl
+
+I discussed the exercise with: 
+
+====================================
+=  README for ex3: Loops 'N Lists  =
+====================================
+
+
+==================
+=  Description:  =
+==================
+Exercises using loops and lists.
+
+======================
+=  Special Comments  =
+======================
+I had 2 ideas to improve my prime's exercise:
+1) Store the prime number calculated each run in a persistent way for re-use 
+without calculation in future runs (using python shelve for example), I 
+didn't know if it is permited to create files on the testing server and did 
+not want to get in trouble in case I caused the tester to call unaothorized 
+methods, and it also seemed like an overkill, so I didn't implement that... 
+2) Search for prime numbers smaller than n on the internet (using urllib) 
+instead of calculating them the way I did. That also seemed like an overkill 
+and I could not assume the tester has authorized access to the outside www.

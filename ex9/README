@@ -1,0 +1,138 @@
+razkarl
+311143127
+Raz Karl
+
+shirrotbard
+313457814
+Shir Rotbard
+
+I discussed the exercise with:
+
+==============================
+=  README for ex9: Asteroids =
+==============================
+A turtle based asteroids game!
+
+The game is composed of a spaceship that floats around on a screen and
+attempts to destroy asteroids by shooting them with torpedoes until they
+all vanish.
+
+=========
+= Usage =
+=========
+usage: python asteroids_main.py [num_of_asteroids] [num_of_fractions]
+
+Runs the game in a new window and spawns the desired number of asteroids.
+
+positional arguments:
+  num_of_asteroids  number of asteroids in the game (default: 3)
+  num_of_fractions  number of fractions splitting from an asteroid
+                    after hit by torpedo. (default: 10)
+
+example:
+python asteroids_main.py 1 25
+
+============
+= Controls =
+============
+ ^  Up              Accelerate the spaceship.
+< > Left \ Right    Turn the spaceship CCW \ CW.
+ _  Spacebar        Shoot a torpedo.
+    S               Special attack - All asteroids explode! (Muhahaha!)
+    Q               Quit the game.
+
+================
+=  Description =
+================
+Requires Turtle, Tkinter.
+
+vector.py           Defines the Vector class - a 2D vector that can be added to
+                    other vector objects (like speed or position)
+
+speed.py            Defines the Speed class - a Vector with limits
+                    (deprecated) and methods to calculate angles.
+
+position.py         Defines the Position class - a Vector with methods to
+                    calculate distance from other positions and to overlap if
+                    exceeding the screen.
+
+gameobject.py       Defines the GameObject class - an object with a radius,
+                    position and speed that can move across the screen and
+                    intersect with other objects.
+
+ship.py             Defines the Ship class - A GameObject that can accelerate,
+                    rotate and has a life limit.
+
+asteroid.py         Defines the Asteroid class - A GameObject with a specific
+                    size.
+
+torpedo.py          Defines the Torpedo class - A GameObject that can
+                    accelerate and expires after a number of turns.
+
+asteroids_main.py   The main file with the game logic, defines the
+                    GameRunner class which spawns all the game objects and
+                    handles all the interactions between them.
+
+====================
+= Design Decisions =
+====================
+We decided to embrace OOP concepts in this exercise, and use inheritance
+to enable shared behaviours between similar objects, such as movement and
+intersection detection.
+Therefore we made the following design decisions:
+
+1)  Implementing the 'Vector' class
+        All objects in the game change their position according to their
+        speed, so we decided to imitate the physics model that uses vectors of
+        speed and acceleration to describe objects movement in a 2D space.
+        We used operator overloading to make vector addition even more seamless.
+    + Readable, Scalable, Taught us new things about OOP in Python.
+
+    Alternative:
+        Skip all the inheritance headache and simply represent the position
+        and speed as 2-tuples, implement the methods for addition and distance
+        calculation in GameRunner, and avoid over-complicating an already
+        quite complicated problem.
+    + Simple.
+
+
+2)  Implementing the 'GameObject' class
+        We noticed all the game objects (Ship, Asteroid, Torpedo) share
+        similar attributes and methods (radius, position, speed, movement,
+        being drawn on the screen, etc.)
+        So we decided to implement a base class called 'GameObject' which
+        implements all the basic operations and then inherit and expand it
+        with each object's unique behaviour, rather than replicating the
+        same code over many classes.
+    + Scalable, Generic, Taught as new things about OOP in Python.
+
+    Alternative:
+        Re-write the same logic with slight modifications for all game
+        objects in their own class definition.
+    + Simple, Easier to debug.
+
+3)  Objects intersection - Detect & Destroy With Sets
+        We realised that the heaviest part of the program would be checking
+        and handling all the intersecting objects and eliminating them from
+        the game.
+        There is no simple way to avoid O(n^2) comparisons on object collisions
+        (for all asteroid compare with all torpedoes), so we decided to use
+        Sets with O(1) insertions and removals to speed up the event of
+        collision detection (heaviest point in the code).
+        We first mark all the colliding object as fast as possible with set
+        insertions, and then iterate by O(n) on the sets of detected
+        collisions to preform all the removals.
+        By splitting the operation to 2 parts we achieve smaller complexity
+        and greater efficiency, also eliminating the need of expensive
+        deepcopy operations for iterating on data structures while removing
+        from them. (Since we don't iterate and remove at the same time)
+    + Fast! Safe (no removals from list while iterating, No attempts to
+      remove the same object twice)
+
+    Alternative:
+        Deepcopy all asteroids and torpedoes before collision checking, then
+        iterate by O(n^2) and remove all colliding objects from the game
+        lists.
+        This could also result in the same object being removed twice.
+    + Readable - detection and removal appear next to each other and that's
+    less confusing for programmers unfamiliar with the code structure.

@@ -1,0 +1,13 @@
+Standalone testing instructions:
+
+1. Place your python files in this directory.
+
+2. Run 'python3 test.py ex0tests'
+
+3. Run 'python3 filelist.py <zipfile>', where '<zipfile>'
+   is the name of your file, to determine if you are missing
+   files, or have extra files.
+
+As the semester proceeds, you will learn how to modify these
+files in order to run only some of the tests, or modify
+them in ways that will help in debugging.

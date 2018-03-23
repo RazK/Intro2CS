@@ -1,0 +1,49 @@
+razkarl
+311143127
+Raz Karl
+
+I discussed the exercise with:
+
+===================================
+=  README for ex11: Fun With Math =
+===================================
+An exercise of implementing second order mathematical functions.
+
+================
+=  Description =
+================
+Requires tkinter, ex11helper
+Includes doctests for most functions
+
+This project implements several mathematical functions:
+* constant  f(x) = c
+* identity  f(x) = x
+* sin       f(x) = sin(x)
+
+As well as operations to perform on mathematical functions:
+* add       f(x) = g(x) + h(x)
+* subtract  f(x) = g(x) - h(x)
+* multiply  f(x) = g(x) * h(x)
+* divide    f(x) = g(x) / h(x)
+
+And functions for analyzing mathematical functions:
+* solve         find x where f(x) = 0
+* inverse       find x where f(x) = given y
+* derivative    f'(x) for f(x)
+* integral      f(x) for f'(x)
+
+Notice 2 additional functions I implemented:
+* newton_method_x() - An alternative to solve() using Newton's method instead
+                      of binary search - It relies on the assumption that
+                      a tangent to a function crosses the X axis close to
+                      where to function does. It works by recursively drawing a
+                      tangent to the function's graph and looking where it
+                      cuts the X axis - if this is where the function does
+                      (i.e. f(x) = 0) we found our solution. Otherwise, draw
+                       a new tangent at that x and keep going with this
+                       process until the tangent crosses the X (as close as
+                       epsilon to) where to function does.
+                      This proved to be more efficient than binary search.
+* inverse_newton    - An alternative so inverse() using Newton's method
+                      instead of solve() - does not require expanding the
+                      range iteratively and finds the inverse much faster.

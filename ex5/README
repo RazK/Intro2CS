@@ -1,0 +1,27 @@
+heimy4prez
+203631676
+Shimon Heimowitz
+
+razkarl
+311143127
+Raz Karl
+
+I discussed the exercise with: 
+
+================================================
+=  README for ex5: Shopping List Compare Tool  =
+================================================
+A tool for comparing prices of a shopping list between different stores.
+
+==================
+=  Description:  =
+==================
+A python program that compares shopping list prices between stores
+in Israel.
+
+Requires ElementTree, tkinter.
+
+Store databases are given in a specific XML format decribed by the 
+Israel Ministry of Economy:
+http://economy.gov.il/Trade/ConsumerProtection/Pages/PriceTransparencyRegulations.aspx
+

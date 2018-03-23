@@ -1,0 +1,41 @@
+razkarl
+311143127
+Raz Karl
+
+I discussed the exercise with:
+
+=============================
+=  README for ex4: Hangman  =
+=============================
+A simple game of Hangman (with GUI!)
+
+==================
+=  Description:  =
+==================
+A python implementation of the notorious game Hangman!
+Requires Pillow and Tkinter.
+Developed and tested on Ubuntu 14.04.
+
+==================================
+=  How To Enable Hebrew Letters  =
+==================================
+Reference:
+http://tinyurl.com/razk-ex4-hebrew-stackoverflow
+
+In order to enable hebrew in the game, we need to do the following:
+1) Tell the environment to use UTF-8 encoding (rather than ASCII or other 
+encoding standart which don't support Hebrew characters)
+to do this we can add the following line in the top of hangman.py after
+the python shebang:
+
+# -*- coding: utf-8 -*-
+
+2) Add Hebrew alphabet to our list of valid letters (line 13):
+
+HEBREW_ALPHABET = "אבגדהוזחטיותכלמנסעפצקרשת"
+VALID_LETTERS_LIST = list(string.ascii_lowercase + HEBREW_ALPHABET)
+
+3) Add some hebrew words to the file words.txt... :)
+
+* I checked this, and it worked! Notice that Hebrew words appear 
+written from left to right in the GUI.
